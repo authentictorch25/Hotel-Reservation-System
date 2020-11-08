@@ -14,6 +14,11 @@ namespace HotelResevationSystem
             
             //UC2,//UC3,//UC4
             HotelReservation.GetCheapestHotel();
+
+            //UC5
+            HotelReservation.AddRatings("Lakewood",3);
+            HotelReservation.AddRatings("Bridgewood",4);
+            HotelReservation.AddRatings("Ridgewood",5);
             Console.ReadKey();
         }
     }

@@ -10,6 +10,9 @@ namespace HotelResevationSystem
         public string hotelName;
         public int regularRate;
         public int weekendRate;
+        //Since there is separate method for adding rating hence not 
+        //including it in the constructor
+        public int rating;
         /// <summary>
         /// Initializes a new instance of the <see cref="Hotel"/> class.
         /// </summary>

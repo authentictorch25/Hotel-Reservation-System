@@ -77,5 +77,23 @@ namespace HotelResevationSystem
                 Console.WriteLine(ex.Message);
             }
         }
+        /// <summary>
+        /// Adds the ratings.
+        /// </summary>
+        /// <param name="hotelName">Name of the hotel.</param>
+        /// <param name="ratings">The ratings.</param>
+        public static void AddRatings(string hotelName, int ratings)
+        {
+            {
+                foreach (var v in HotelBook)
+                {
+                    if (v.Key == hotelName)
+                    {
+                        v.Value.rating = ratings;
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
