@@ -8,9 +8,9 @@ namespace HotelResevationSystem
         {
             //UC1
             Console.WriteLine("Welcome to Hotel Reservation Sysyem");
-            HotelReservation.AddHotel("Lakewood", 110);
-            HotelReservation.AddHotel("Bridgewood", 150);
-            HotelReservation.AddHotel("Ridgewood", 220);
+            HotelReservation.AddHotel("Lakewood", 110,90);
+            HotelReservation.AddHotel("Bridgewood", 150,60);
+            HotelReservation.AddHotel("Ridgewood", 220,150);
             
             //UC2
             HotelReservation.GetCheapestHotel();
