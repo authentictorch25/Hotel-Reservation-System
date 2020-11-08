@@ -141,6 +141,9 @@ namespace HotelResevationSystem
                 throw new Exception(e.Message);
             }
         }
+        /// <summary>
+        /// Finds the cheapest best rated hotel.
+        /// </summary>
         public static void FindCheapestBestRatedHotel()
         {
             //Get the raterecords dictionary
@@ -161,6 +164,19 @@ namespace HotelResevationSystem
                 //Checks how many hotels have the rating=maxRating and prints the details
                 if (v.Value.rating == maxRating)
                     Console.WriteLine($"{v.Key},Ratings:{v.Value.rating},TotalRate:{v.Value.totalRate}");
+            }
+        }
+        /// <summary>
+        /// Finds the best rated hotel.
+        /// </summary>
+        public static void FindBestRatedHotel()
+        {
+            var rateRecords = CalculateRateForEachHotel();
+            int maxRating = rateRecords.Select(item => item.Value.rating).Max();
+            foreach (var v in rateRecords)
+            {
+                if (v.Value.rating == maxRating)
+                    Console.WriteLine($"{v.Key},TotalRate:{v.Value.totalRate}");
             }
         }
     }
