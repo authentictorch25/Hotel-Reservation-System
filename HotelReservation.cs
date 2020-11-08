@@ -16,7 +16,7 @@ namespace HotelResevationSystem
         /// <param name="regularRate">The regular rate.</param>
         public static void AddHotel(string name, int regularRate, int weekendRate)
         {
-            if(HotelBook.ContainsKey(name))
+            if (HotelBook.ContainsKey(name))
             {
                 Console.WriteLine("Hotel Name already exists");
             }
@@ -85,6 +85,7 @@ namespace HotelResevationSystem
         public static void AddRatings(string hotelName, int ratings)
         {
             {
+                //Iterating in the dictionary to get name and add rating
                 foreach (var v in HotelBook)
                 {
                     if (v.Key == hotelName)
@@ -93,6 +94,73 @@ namespace HotelResevationSystem
                         break;
                     }
                 }
+            }
+        }
+        /// <summary>
+        /// Calculates the rate for each hotel.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static Dictionary<string, HotelRatingRate> CalculateRateForEachHotel()
+        {
+            try
+            {
+                Console.WriteLine("Enter the check-in date(DDMMMYYYY):");
+                DateTime checkIn = DateTime.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the check-out date(DDMMMYYYY):");
+                DateTime checkOut = DateTime.Parse(Console.ReadLine());
+                Dictionary<string, HotelRatingRate> rateRecords = new Dictionary<string, HotelRatingRate>();
+
+                //UC 4 Refactor
+                foreach (var v in HotelBook)
+                {
+                    int totalRate = 0;
+                    DateTime tempDate = checkIn;
+                    while (tempDate <= checkOut)
+                    {
+                        //Checking if the day is weekend
+                        if (tempDate.DayOfWeek == DayOfWeek.Saturday || tempDate.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            totalRate += v.Value.weekendRate;
+                        }
+                        else
+                        {
+                            totalRate += v.Value.regularRate;
+                        }
+                        //Incrementing the current tempdate to next day
+                        tempDate = tempDate.AddDays(1);
+                    }
+                    //UC 6 Refactor
+                    HotelRatingRate HotelRatingRate = new HotelRatingRate(v.Key, v.Value.rating, totalRate);
+                    rateRecords.Add(v.Value.hotelName, HotelRatingRate);
+                }
+                return rateRecords;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public static void FindCheapestBestRatedHotel()
+        {
+            //Get the raterecords dictionary
+            var rateRecords = CalculateRateForEachHotel();
+            //Dictionary initialized to store details of hotels with cheapest rate
+            Dictionary<string, HotelRatingRate> cheapestRateDict = new Dictionary<string, HotelRatingRate>();
+            var kvp = rateRecords.OrderBy(kvp => kvp.Value.totalRate).First();
+            foreach (var v in rateRecords)
+            {
+                if (v.Value.totalRate == kvp.Value.totalRate)
+                    //Add all hotels with same minimum totalRate
+                    cheapestRateDict.Add(v.Key, v.Value);
+            }
+            //Calculates the max rating among all hotels with same totalRate
+            var maxRating = cheapestRateDict.Select(item => item.Value.rating).Max();
+            foreach (var v in cheapestRateDict)
+            {
+                //Checks how many hotels have the rating=maxRating and prints the details
+                if (v.Value.rating == maxRating)
+                    Console.WriteLine($"{v.Key},Ratings:{v.Value.rating},TotalRate:{v.Value.totalRate}");
             }
         }
     }
