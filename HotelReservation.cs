@@ -39,20 +39,40 @@ namespace HotelResevationSystem
                 Console.WriteLine("Enter the checkout date, Format DDMMYYYY");
                 DateTime checkOut = DateTime.Parse(Console.ReadLine());
                 //Count of days stayed (suppose a person stays from 2/10-3/10, Substraction will give 1 but actual stay is 2 days hence +1)
-                int numOfDays = (checkOut - checkIn).Days +1;
+                int numOfDays = (checkOut - checkIn).Days + 1;
                 Dictionary<string, int> rateRecords = new Dictionary<string, int>();
                 //Adding a dictionary to get the rates and name of the hotel
                 foreach (var v in HotelBook)
                 {
-                    int rate = v.Value.regularRate * numOfDays;
-                    rateRecords.Add(v.Value.hotelName, rate);
+                    int totalRate = 0;
+                    DateTime tempDate = checkIn;
+                    while (tempDate <= checkOut)
+                    {
+                        //Checking if the day is weekend
+                        if (tempDate.DayOfWeek == DayOfWeek.Saturday || tempDate.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            totalRate += v.Value.weekendRate;
+                        }
+                        else
+                        {
+                            totalRate += v.Value.regularRate;
+                        }
+                        //Incrementing the current tempdate to next day
+                        tempDate = tempDate.AddDays(1);
+                    }
+                    rateRecords.Add(v.Value.hotelName, totalRate);
                 }
-                //Getting the detail of the hotel and the total rate
+                //Finds the key-value pair where rate is minimum by sorting the dictionary values in ascending order
                 var hotelDetails = rateRecords.OrderBy(kvp => kvp.Value).First();
-                Console.WriteLine($"{hotelDetails.Key},TotalRate:{hotelDetails.Value}");
+                //Iterating the rateRecords dictionary to check how many hotels provide the minimum rate
+                foreach (var v in rateRecords)
+                {
+                    if (v.Value == hotelDetails.Value)
+                        Console.WriteLine($"{v.Key},TotalRate:{v.Value}");
+                }
             }
             //In case any exception Arises
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

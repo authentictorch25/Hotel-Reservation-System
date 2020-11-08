@@ -12,7 +12,7 @@ namespace HotelResevationSystem
             HotelReservation.AddHotel("Bridgewood", 150,60);
             HotelReservation.AddHotel("Ridgewood", 220,150);
             
-            //UC2
+            //UC2,//UC3,//UC4
             HotelReservation.GetCheapestHotel();
             Console.ReadKey();
         }
