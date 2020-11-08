@@ -14,7 +14,7 @@ namespace HotelResevationSystem
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="regularRate">The regular rate.</param>
-        public static void AddHotel(string name, int regularRate)
+        public static void AddHotel(string name, int regularRate, int weekendRate)
         {
             if(HotelBook.ContainsKey(name))
             {
@@ -23,7 +23,7 @@ namespace HotelResevationSystem
             else
             {
                 //Adding hotel to the Hotel model
-                Hotel hotel = new Hotel(name, regularRate);
+                Hotel hotel = new Hotel(name, regularRate, weekendRate);
                 //Adding the hotel to dictionary
                 HotelBook.Add(name, hotel);
             }
